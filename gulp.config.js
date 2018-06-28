@@ -9,6 +9,8 @@ var source = './src/',
     root = __dirname,
     gulp_dir = './gulp/',
     fs = require('fs');
+    
+
 
 try {
     var saasConfig = require(source + 'app/saas/gulp.config');
@@ -74,9 +76,14 @@ module.exports = {
         deps: false,
         constants: saasConfig.getConstants ? saasConfig.getConstants() : getConstants()
     },
-    autoprefixerSettings: {
-        browsers: ['last 2 versions'],
-        cascade: true
+    babelSettings: {
+        'presets': [
+            [ 'env', {
+                'targets': {
+                    'browsers': [ 'last 2 versions' ]
+                }
+            } ]
+        ]
     },
     jsCache: 'jsscripts',
     indentSize: 4,
@@ -89,20 +96,32 @@ function getConstants() {
     var environment = process.env.environment || constants.environment;
     switch (environment) {
         case 'local':
+            result.imagestorageurl = 'https://archwayppgtest.blob.core.windows.net/webimages/';
             result.authurl = 'http://core.four51.com:11629';
             result.apiurl = 'http://core.four51.com:9002';
+            result.devapiurl = 'https://archway-ppg-test.azurewebsites.net/api';
+            result.hostedsiteurl = 'https://archway-ppg-test.azurewebsites.net';
             break;
         case 'qa':
+            result.imagestorageurl = 'https://archwayppgtest.blob.core.windows.net/webimages/';
             result.authurl = 'https://qaauth.ordercloud.io';
             result.apiurl = 'https://qaapi.ordercloud.io';
+            result.devapiurl = 'https://archway-ppg-test.azurewebsites.net/api';
+            result.hostedsiteurl = 'https://archway-ppg-test.azurewebsites.net';            
             break;
         case 'staging':
+            result.imagestorageurl = 'https://archwayppgtest.blob.core.windows.net/webimages/';
             result.authurl = 'https://stagingauth.ordercloud.io';
             result.apiurl = 'https://stagingapi.ordercloud.io';
+            result.devapiurl = 'https://archway-ppg-test.azurewebsites.net/api';
+            result.hostedsiteurl = 'https://archway-ppg-test.azurewebsites.net';            
             break;
         default:
+            result.imagestorageurl = 'https://archwayppgtest.blob.core.windows.net/webimages/';
             result.authurl = 'https://auth.ordercloud.io';
             result.apiurl = 'https://api.ordercloud.io';
+            result.devapiurl = 'https://archway-ppg-test.azurewebsites.net/api';
+            result.hostedsiteurl = 'https://archway-ppg-test.azurewebsites.net';             
             break;
     }
     if (process.env.apiurl && process.env.authurl) {

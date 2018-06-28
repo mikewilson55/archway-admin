@@ -1,7 +1,7 @@
 <header class="c-jumbotron">
     <div class="container container-smooth">
         <ul class="breadcrumb">
-            <li><a href="" ui-sref="products">All Products</a></li>
+            <li><a href="" ui-sref="products({productid: ''})">All Products</a></li>
             <li class="active">{{product.productName}}</li>
         </ul>
         <header class="l-page-header">
@@ -38,37 +38,43 @@
                         </div>
                     </fieldset>
                     <fieldset class="form-group">
+                        <label for="ProductBrand" class="col-sm-3 control-label">Brand</label>
+                        <div class="col-sm-9">
+                            <input id="ProductBrand" type="text" class="form-control" ng-model="product.model.xp.Brand">
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="ProductComments" class="col-sm-3 control-label">Comments</label>
+                        <div class="col-sm-9">
+                            <input id="ProductComments" type="text" class="form-control" ng-model="product.model.xp.Comments">
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="keywords" class="col-sm-3 control-label">Keywords</label>
+                        <tags-input class="col-sm-9" ng-if="product.state === 'product'" ng-model="product.keywords" ng-init="product.setKeywords()"></tags-input>
+                    </fieldset>
+                    <fieldset class="form-group">
                         <label for="QuantityMultiplier" class="col-sm-3 control-label">Qty Multiplier</label>
                         <div class="col-sm-9">
                             <input id="QuantityMultiplier" type="number" class="form-control" min="1" ng-model="product.model.QuantityMultiplier" required>
                         </div>
                     </fieldset>
                     <fieldset class="form-group">
-                        <label for="DefaultPrice" class="col-sm-3 control-label">Default Price</label>
+                        <label for="UnitOfMeasure" class="col-sm-3 control-label">Unit of Measure</label>
                         <div class="col-sm-9">
-                            <p class="form-control-static">
-                                <span ng-if="!product.model.DefaultPriceScheduleID" oc-if-roles="!ProductAdmin && !PriceScheduleAdmin" class="text-muted">No default price</span>
-                                <a ng-if="!product.model.DefaultPriceScheduleID" oc-if-roles="PriceScheduleAdmin" ng-click="product.createDefaultPrice()">Add a default price</a>
-                                <a ng-if="product.model.DefaultPriceScheduleID" oc-if-roles="ProductAdmin" ui-sref=".pricing({pricescheduleid: product.model.DefaultPriceScheduleID})"><b>{{product.model.DefaultPriceSchedule.PriceBreaks[0].Price | currency}}</b></a>
-                                <b ng-if="product.model.DefaultPriceScheduleID" oc-if-roles="!ProductAdmin" class="text-primary">{{product.model.DefaultPriceSchedule.PriceBreaks[0].Price | currency}}</b>
-                            </p>
+                            <input id="UnitOfMeasure" type="text" class="form-control" ng-model="product.model.xp.UnitOfMeasure">
                         </div>
                     </fieldset>
                     <fieldset class="form-group">
                         <div class="col-sm-offset-3 col-sm-9">
-                            <div class="checkbox" oc-readonly-roles="InventoryAdmin">
-                                <label for="InventoryEnabled">
-                                    <input id="InventoryEnabled" name="InventoryEnabled" type="checkbox" ng-model="product.model.Inventory.Enabled"> Inventory Enabled
-                                </label>
-                            </div>
                             <div class="checkbox">
                                 <label for="ProductActive">
                                     <input id="ProductActive" name="ProductActive" type="checkbox" ng-model="product.model.Active"> Active
                                 </label>
                             </div>
                             <div class="checkbox">
-                                <label for="ProductFeatured">
-                                    <input id="ProductFeatured" name="ProductFeatured" type="checkbox" ng-model="product.model.xp.Featured"> Featured
+                                <label for="ProductApproval">
+                                    <input id="ProductApproval" name="ProductApproval" type="checkbox" ng-model="product.model.xp.ApprovalRequired"> Approval Required
                                 </label>
                             </div>
                         </div>
@@ -77,20 +83,12 @@
                         <div class="col-sm-offset-3 col-sm-9">
                             <button type="submit" cg-busy="product.productUpdateLoading" ng-disabled="product.form.$invalid" class="btn btn-primary btn-block">Update Product Info</button>
                         </div>
-                        <div class="col-sm-offset-3 col-sm-9 hidden-xs">
-                            <hr>
-                            <button type="button" class="btn btn-danger btn-block" ng-click="product.deleteProduct()">Delete Product</button>
-                        </div>
                     </fieldset>
                 </form>
             </div>
             <div class="col-sm-4">
-                <oc-file-upload file-upload-model="product.model.xp" file-upload-options="product.fileUploadOptions"></oc-file-upload>
+                <oc-file-upload product="product.model" file-upload-model="product.model.xp" file-upload-options="product.fileUploadOptions"></oc-file-upload>
             </div>
-        </div>
-        <div class="visible-xs" oc-if-roles="ProductAdmin">
-            <hr>
-            <button type="button" class="btn btn-danger btn-block" ng-click="product.deleteProduct()"><i class="fa fa-trash-o"></i> Delete Product</button>
         </div>
     </div>
 </article>

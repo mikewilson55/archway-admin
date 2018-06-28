@@ -2,7 +2,7 @@ angular.module('orderCloud')
     .controller('UsersCtrl', UsersController)
 ;
 
-function UsersController($state, $stateParams, toastr, $ocMedia, OrderCloudSDK, ocUsers, ocParameters, UserList, Parameters) {
+function UsersController($state, $stateParams, toastr, hostedsiteurl, OrderCloudSDK, ocUsers, ocParameters, UserList, Parameters, impersonationClientId) {
     var vm = this;
     vm.list = UserList;
     vm.parameters = Parameters;
@@ -83,6 +83,18 @@ function UsersController($state, $stateParams, toastr, $ocMedia, OrderCloudSDK, 
                 vm.list.Items.splice(scope.$index, 1);
                 vm.list.Meta.TotalCount--;
                 vm.list.Meta.ItemRange[1]--;
+            });
+    };
+
+    vm.impersonateUser = function(scope) {
+        let impersonation = {
+            clientID: impersonationClientId,
+            roles: ['AddressReader', 'BuyerReader', 'BuyerUserReader', 'MeAddressAdmin', 'MeAdmin', 'MeXpAdmin', 'OrderReader', 'Shopper']
+        };
+        return OrderCloudSDK.Users.GetAccessToken($stateParams.buyerid, scope.user.ID, impersonation)
+            .then(function(data) {
+                let buyerAppUrl = `${hostedsiteurl}/punchout?token=${data.access_token}`;
+                window.open(buyerAppUrl, '_blank');
             });
     };
 }
