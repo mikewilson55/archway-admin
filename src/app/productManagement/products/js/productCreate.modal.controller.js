@@ -1,7 +1,7 @@
 angular.module('orderCloud')
     .controller('ProductCreateModalCtrl', ProductCreateModalController);
 
-function ProductCreateModalController($q, $exceptionHandler, $uibModalInstance, $state, OrderCloudSDK) {
+function ProductCreateModalController($q, $http, $exceptionHandler, $uibModalInstance, $state, imagestorageurl, devapiurl, OrderCloudSDK) {
     var vm = this;   
 
     vm.product = {
@@ -11,7 +11,9 @@ function ProductCreateModalController($q, $exceptionHandler, $uibModalInstance, 
             MinQuantity: 1,
             OrderType: 'Standard'
         },
-        xp: {},
+        xp: {
+            Images: []
+        },
         Active: true,
         QuantityMultiplier: 1
     };
@@ -61,10 +63,16 @@ function ProductCreateModalController($q, $exceptionHandler, $uibModalInstance, 
     vm.listAllAdminAddresses = listAllAdminAddresses;
 
     vm.fileUploadOptions = {
-        keyname: 'image',
+        keyname: 'Images',
+        src: imagestorageurl,
+        folder: null,
         extensions: 'jpg, png, gif, jpeg, tiff',
-        uploadText: 'Upload an image',
-        replaceText: 'Replace image'
+        invalidExtensions: null,
+        onUpdate: null,
+        multiple: false,
+        addText: 'Upload an image',
+        replaceText: 'Replace',
+        action: 'create'
     };
 
     function listAllAdminAddresses(search) {
@@ -80,6 +88,14 @@ function ProductCreateModalController($q, $exceptionHandler, $uibModalInstance, 
         $uibModalInstance.dismiss();
         $state.go('sellerAddresses');
     };
+
+    function getKeywords() {
+        //returns an array of keywords
+        return _.map(vm.product.xp.Keywords, function(keyword) {
+            return keyword.text;
+        });
+        
+    }
 
     function submit() {
         var df = $q.defer();
@@ -101,11 +117,29 @@ function ProductCreateModalController($q, $exceptionHandler, $uibModalInstance, 
         }
 
         function _createProduct() {
+            if (vm.product.xp && vm.product.xp.Keywords.length) vm.product.xp.Keywords = getKeywords();
             if (vm.product.Inventory && !vm.product.Inventory.Enabled) delete vm.product.Inventory;
-            OrderCloudSDK.Products.Create(vm.product)
+            OrderCloudSDK.Products.Update(vm.product.ID, vm.product)
                 .then(function (data) {
+                    if (vm.product.Image) {
+                        let formBody = new FormData();
+                        formBody.append('imageUpload', vm.product.Image, vm.product.Image.name);
+                        return $http({
+                            url: `${devapiurl}/productimage/${data.ID}`,
+                            method: 'POST',
+                            data: formBody,
+                            headers: {
+                                'Authorization': `Bearer ${OrderCloudSDK.GetToken()}`,
+                                'Content-Type': undefined
+                            }
+                        }).then(data => {
+                            return $uibModalInstance.close(data.data);
+                        });
+                    } else {
                         $uibModalInstance.close(data);
+                    }
                 });
+            
         }
     }
 

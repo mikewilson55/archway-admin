@@ -36,7 +36,7 @@
                 <label for="MinQuantity" class="col-sm-3 control-label">Min Quantity</label>
                 <div class="col-sm-9">
                     <input id="MinQuantity" name="MinQuantity" type="number" class="form-control" ng-disabled="editProductPriceModal.data.RestrictedQuantity"
-                        pattern="^[0-9]*[1-9][0-9]*$" pattern-err-type="positiveInteger" ng-max="editProductPriceModal.data.MaxQuantity"
+                        pattern="^[0-9]*[1-9][0-9]*$" pattern-err-type="positiveInteger" ng-max="editProductPriceModal.data.xp.MaxQuantity"
                         ng-model="editProductPriceModal.data.MinQuantity" />
                 </div>
             </fieldset>
@@ -45,7 +45,7 @@
                 <div class="col-sm-9">
                     <input id="MaxQuantity" name="MaxQuantity" type="number" class="form-control" ng-disabled="editProductPriceModal.data.RestrictedQuantity"
                         pattern="^[0-9]*[1-9][0-9]*$" pattern-err-type="positiveInteger" ng-min="editProductPriceModal.data.MinQuantity"
-                        ng-model="editProductPriceModal.data.MaxQuantity" />
+                        ng-model="editProductPriceModal.data.xp.MaxQuantity" />
                 </div>
             </fieldset>
             <fieldset class="form-group">
@@ -66,6 +66,37 @@
         <hr />
         <h4>Price Breaks</h4>
         <oc-price-breaks priceschedule="editProductPriceModal.data"></oc-price-breaks>
+        <hr/>
+        <h4>Assignments</h4>
+        <fieldset class="form-group">
+            <label for="AssetCollections" class="col-sm-4 control-label">Asset Collections</label>
+            <!-- <ui-select class="col-sm-9" id="AssetCollections" ng-model="editProductPriceModal.selected.value" close-on-select="false" multiple required on-remove="editProductPriceModal.deleteAssignment($item, $model)">
+                <ui-select-match placeholder="Search asset collections..." allow-clear="true">
+                    <span ng-bind-html="$select.selected[$index].Name"></span>
+                </ui-select-match>
+                <ui-select-choices repeat="asset as asset in (editProductPriceModal.assetCollections.Items | filter: $select.search) track by $index" refresh="editProductPriceModal.listAllAssetCollections($select.search)" refresh-delay="300">
+                    <p>
+                        <b>{{asset.Name}}</b>
+                        <br>
+                        <span class="text-small text-muted">({{asset.ID}})</span>
+                    </p>
+                </ui-select-choices>
+            </ui-select> -->
+            <ui-select class="col-sm-9" 
+                id="AssetCollections" 
+                ng-model="editProductPriceModal.selected.value" 
+                on-remove="editProductPriceModal.deleteAssignment($item, $model)"
+                on-select="editProductPriceModal.saveAssignment($item, $model)"
+                required 
+                multiple>
+                <ui-select-match>
+                        {{$item.Name}}                    
+                </ui-select-match>
+                <ui-select-choices repeat="item in (editProductPriceModal.assetCollections.Items | filter: $select.search) track by item.ID" refresh="editProductPriceModal.listAllAssetCollections($select.search)" refresh-delay="300">
+                    <div ng-bind-html="item.Name"></div>
+                </ui-select-choices>
+            </ui-select>
+        </fieldset>
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary btn-block" ng-disabled="editProductPriceModal.form.$invalid || !editProductPriceModal.data.PriceBreaks.length">Save</button>
