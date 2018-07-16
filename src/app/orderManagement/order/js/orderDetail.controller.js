@@ -50,13 +50,13 @@ function OrderController($stateParams, toastr, OrderCloudSDK, ocOrderDetailServi
             });
     };
 
-    vm.cancelOrder = function(orderid) {
+    vm.cancelOrder = function(order) {
         return ocConfirm.Confirm({
             message:'Are you sure you want to cancel this order?',
             confirmText: 'Yes, Cancel Order',
             type: 'delete'
         }).then(function() {
-            return OrderCloudSDK.Orders.Cancel('incoming', orderid);
+            return OrderCloudSDK.Orders.Cancel('incoming', order.ID);
         });
     };
 }
