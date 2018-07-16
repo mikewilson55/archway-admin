@@ -9,7 +9,7 @@
                 <small class="text-muted">Order ID</small> <br> {{orderDetail.order.ID}}
             </h3>
             <div class="l-page-header__btns" ng-if="orderDetail.order.Status != 'Completed' && orderDetail.order.Status != 'Canceled'">
-                <button type="button" class="btn btn-default btn-block" ng-click="orderDetail.cancelOrder(orderDetail.order.ID)">
+                <button type="button" class="btn btn-default btn-block" ng-click="orderDetail.cancelOrder(orderDetail.order)">
                     <span class="text-danger">
                         <i class="fa fa-times"></i>
                         Cancel Order
