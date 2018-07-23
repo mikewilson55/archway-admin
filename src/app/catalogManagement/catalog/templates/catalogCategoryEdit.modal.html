@@ -16,10 +16,26 @@
                 <input id="categoryNameInput" type="text" class="form-control" ng-model="editCategory.category.Name" required/>
             </div>
         </fieldset>
+        <fieldset class="form-group" ng-if="editCategory.isChipSection">
+            <label for="categoryColumnsInput" class="col-sm-3 control-label">Columns</label>
+            <div class="col-sm-9">
+                <input id="categoryColumnsInput" type="text" class="form-control" ng-model="editCategory.category.xp.Columns" required/>
+            </div>
+        </fieldset>
         <fieldset class="form-group">
             <label for="categoryDescriptionInput" class="col-sm-3 control-label">Description</label>
             <div class="col-sm-9">
                 <textarea rows="4" id="categoryDescriptionInput" type="text" class="form-control" placeholder="(Optional)" ng-model="editCategory.category.Description"></textarea>
+            </div>
+        </fieldset>
+        <fieldset class="form-group">
+            <div class="col-sm-9 col-md-offset-3">
+                <div class="checkbox">
+                    <label for="categoryIsChipGridInput">
+                        <input id="categoryIsChipGridInput" type="checkbox" ng-model="editCategory.category.xp.IsChipGrid"/>
+                        Is Chip Grid
+                    </label>
+                </div>
             </div>
         </fieldset>
         <fieldset class="form-group">

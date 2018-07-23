@@ -2,7 +2,7 @@ angular.module('orderCloud')
     .factory('ocCatalog', OrderCloudCatalog)
 ;
 
-function OrderCloudCatalog($q, $uibModal, OrderCloudSDK, ocConfirm) {
+function OrderCloudCatalog($q, $uibModal, OrderCloudSDK, ocConfirm, buyerid, catalogid) {
     var service = {
         CreateCategory: _createCategory,
         EditCategory: _editCategory,
@@ -59,6 +59,12 @@ function OrderCloudCatalog($q, $uibModal, OrderCloudSDK, ocConfirm) {
                 },
                 CatalogID: function() {
                     return catalogid;
+                },
+                IsChipSection: function() {
+                    if (!category.ParentID) return;
+                    return OrderCloudSDK.Categories.Get(catalogid, category.ParentID).then( parentCategory => {
+                        return parentCategory.xp && parentCategory.xp.IsChipGrid;
+                    });
                 }
             }
         }).result;

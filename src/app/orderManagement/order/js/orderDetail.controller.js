@@ -2,7 +2,7 @@ angular.module('orderCloud')
     .controller('OrderCtrl', OrderController)
 ;
 
-function OrderController($stateParams, toastr, OrderCloudSDK, ocOrderDetailService, ocNavItems, SelectedOrder, OrderLineItems) {
+function OrderController($stateParams, $state, toastr, OrderCloudSDK, ocOrderDetailService, ocNavItems, ocConfirm, SelectedOrder, OrderLineItems) {
     var vm = this;
     vm.order = SelectedOrder;
     vm.lineItems = OrderLineItems;
@@ -48,5 +48,17 @@ function OrderController($stateParams, toastr, OrderCloudSDK, ocOrderDetailServi
                         toastr.success('Line item updated.');
                     });
             });
+    };
+
+    vm.cancelOrder = function(order) {
+        return ocConfirm.Confirm({
+            message:'Are you sure you want to cancel this order?',
+            confirmText: 'Yes, Cancel Order',
+            type: 'delete'
+        }).then(function() {
+            return OrderCloudSDK.Orders.Cancel('incoming', order.ID).then(function() {
+                $state.go('orders');
+            });
+        });
     };
 }
