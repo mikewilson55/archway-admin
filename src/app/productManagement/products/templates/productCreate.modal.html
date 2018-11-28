@@ -71,6 +71,15 @@
                     </div>
                 </div>
             </fieldset>
+            <fieldset class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <div class="checkbox">
+                        <label for="ProductWhileSuppliesLast">
+                            <input id="ProductWhileSuppliesLast" name="ProductWhileSuppliesLast" type="checkbox" ng-model="productCreateModal.product.xp.WhileSuppliesLast"> While Supplies Last
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
         </div>
         <div ng-show="productCreateModal.steps[productCreateModal.currentStep].form == 'image'" ng-form="image">
             <fieldset>
