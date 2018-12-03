@@ -4,7 +4,7 @@
         <h4 class="modal-title">{{productCreateModal.currentStep ? productCreateModal.product.Name : 'Create New Product'}} <span class="text-muted">- {{productCreateModal.steps[productCreateModal.currentStep].name}}</span></h4>
     </div>
     <div class="modal-body" ng-if="productCreateModal.initialized">
-        <div class="form-horizontal" ng-show="productCreateModal.steps[productCreateModal.currentStep].form == 'info'" ng-form="info">
+        <div class="form-group form-horizontal" ng-show="productCreateModal.steps[productCreateModal.currentStep].form == 'info'" ng-form="info">
             <fieldset class="form-group">
                 <label for="ProductID" class="col-sm-3 control-label">Product ID</label>
                 <div class="col-sm-9">

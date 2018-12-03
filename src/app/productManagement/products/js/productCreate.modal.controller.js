@@ -1,7 +1,7 @@
 angular.module('orderCloud')
     .controller('ProductCreateModalCtrl', ProductCreateModalController);
 
-function ProductCreateModalController($q, $http, $exceptionHandler, $uibModalInstance, $state, imagestorageurl, devapiurl, OrderCloudSDK, catalogid, buyerid) {
+function ProductCreateModalController($q, $http, $exceptionHandler, $uibModalInstance, $state, imagestorageurl, devapiurl, OrderCloudSDK, catalogid, buyerid, changeLogService) {
     var vm = this;
     vm.catalogID = catalogid;
     vm.buyerID = buyerid;
@@ -142,10 +142,13 @@ function ProductCreateModalController($q, $http, $exceptionHandler, $uibModalIns
         }
 
         function _createProduct() {
-            if (vm.product.xp && vm.product.xp.Keywords.length) vm.product.xp.Keywords = getKeywords();
+            if (vm.product.xp && vm.product.xp.Keywords && vm.product.xp.Keywords.length) vm.product.xp.Keywords = getKeywords();
             if (vm.product.Inventory && !vm.product.Inventory.Enabled) delete vm.product.Inventory;
             return OrderCloudSDK.Products.Update(vm.product.ID, vm.product)
                 .then(function (newProduct) {
+                    vm.newProductValues = vm.product;
+                    if (vm.product.xp && vm.product.xp.Keywords && vm.product.xp.Keywords.length) vm.newProductValues.xp.Keywords = getKeywords();
+
                     if (vm.product.Image) {
                         let formBody = new FormData();
                         formBody.append('imageUpload', vm.product.Image, vm.product.Image.name);
@@ -158,11 +161,14 @@ function ProductCreateModalController($q, $http, $exceptionHandler, $uibModalIns
                                 'Content-Type': undefined
                             }
                         }).then(data => {
+                            vm.newProductValues.xp.Images = data.data.xp.Images;
+                            SaveProductChangeLog();
                             return data.Data;
                         });
                     } else {
+                        SaveProductChangeLog();
                         return newProduct;
-                        
+
                     }
                 });   
         }
@@ -182,6 +188,55 @@ function ProductCreateModalController($q, $http, $exceptionHandler, $uibModalIns
                 PriceScheduleID: priceSchedule.ID
             });
         }
+    }
+
+    // SAVE CHANGE LOG 
+    function SaveProductChangeLog() {
+        if (vm.newProductValues.xp && vm.newProductValues.xp.Keywords && vm.newProductValues.xp.Keywords.length > 0)
+        {
+            vm.newProductValues.xp.Keywords = getKeywords();
+            vm.strNewKeywords = vm.newProductValues.xp.Keywords.join();
+        }
+        
+        let changeLogRequest = {
+            oldProduct: {
+                id: null,
+                name: null,
+                description: null,
+                brand: null,
+                comments: null,
+                keywords: null,
+                qtyMultiplier: null,
+                unitofMeasure: null,
+                active: null,
+                approvalRequired: null,
+                whileSuppliesLast: null,
+                imageName: null
+            },
+            newProduct: {
+                id: vm.newProductValues.ID == undefined ? null : vm.newProductValues.ID,
+                name: vm.newProductValues.Name == undefined ? null : vm.newProductValues.Name,
+                description: vm.newProductValues.Description == undefined ? null : vm.newProductValues.Description,
+                brand: vm.newProductValues.xp.Brand == undefined ? null : vm.newProductValues.xp.Brand,
+                comments: vm.newProductValues.xp.Comments == undefined ? null : vm.newProductValues.xp.Comments,
+                keywords: vm.strNewKeywords == undefined ? null : vm.strNewKeywords,
+                qtyMultiplier: vm.newProductValues.QuantityMultiplier == undefined ? null : vm.newProductValues.QuantityMultiplier,
+                unitofMeasure: vm.newProductValues.xp.UnitOfMeasure == undefined ? null : vm.newProductValues.xp.UnitOfMeasure,
+                active: vm.newProductValues.Active == undefined ? null : vm.newProductValues.Active,
+                approvalRequired: vm.newProductValues.xp.ApprovalRequired == undefined ? null : vm.newProductValues.xp.ApprovalRequired,
+                whileSuppliesLast: vm.newProductValues.xp.WhileSuppliesLast == undefined ? null : vm.newProductValues.xp.WhileSuppliesLast,
+                imageName: vm.newProductValues.xp.Images == undefined ? null :(vm.newProductValues.xp.Images.length > 0) ? vm.newProductValues.xp.Images[0].StorageName : null
+            },
+            Action : "Create",
+            productId : vm.newProductValues.ID
+          }
+          changeLogService.CreateChangeLog( changeLogRequest )
+            .then( () => {
+                console.log("Saved Sucessfully");
+            } )
+            .catch( ( ex ) => {
+                $exceptionHandler( ex );
+            } );
     }
 
     function cancel() {
