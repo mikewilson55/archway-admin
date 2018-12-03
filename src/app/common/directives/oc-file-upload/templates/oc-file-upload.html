@@ -10,6 +10,9 @@
             </button>
         </div>
     </figure>
+    <div ng-show="!fileUploadModel[fileUploadOptions.keyname][0].StorageName" class="well text-center">
+        <p translate>No Image Found</p>
+    </div>
     <button class="btn btn-default btn-block" 
             type="button"
             ng-click="openModal()" 
