@@ -162,8 +162,9 @@ function ProductCreateModalController($q, $http, $exceptionHandler, $uibModalIns
                             }
                         }).then(data => {
                             vm.newProductValues.xp.Images = data.data.xp.Images;
+                            vm.newProductValues.xp.Keywords = getKeywords();
                             SaveProductChangeLog();
-                            return data.Data;
+                            return data.data;
                         });
                     } else {
                         SaveProductChangeLog();
@@ -192,12 +193,9 @@ function ProductCreateModalController($q, $http, $exceptionHandler, $uibModalIns
 
     // SAVE CHANGE LOG 
     function SaveProductChangeLog() {
-        if (vm.newProductValues.xp && vm.newProductValues.xp.Keywords && vm.newProductValues.xp.Keywords.length > 0)
-        {
-            vm.newProductValues.xp.Keywords = getKeywords();
+        if (vm.newProductValues.xp.Keywords != null && vm.newProductValues.xp.Keywords && vm.newProductValues.xp.Keywords.length > 0)
             vm.strNewKeywords = vm.newProductValues.xp.Keywords.join();
-        }
-        
+
         let changeLogRequest = {
             oldProduct: {
                 id: null,
