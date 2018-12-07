@@ -21,7 +21,7 @@ function ChangeLogService( $resource, devapiurl, OrderCloudSDK ) {
                     unitofMeasure: productChangeModel.oldProduct.unitofMeasure == undefined ? null : productChangeModel.oldProduct.unitofMeasure,
                     active: productChangeModel.oldProduct.active == undefined ? null : productChangeModel.oldProduct.active,
                     approvalRequired: productChangeModel.oldProduct.approvalRequired == undefined ? null : productChangeModel.oldProduct.approvalRequired,
-                    whileSuppliesLast: productChangeModel.oldProduct.whileSuppliesLast == undefined ? null : productChangeModel.oldProduct.whileSuppliesLast,
+                    whileSuppliesLast: productChangeModel.oldProduct.whileSuppliesLast == undefined ? false : productChangeModel.oldProduct.whileSuppliesLast,
                     imageName: productChangeModel.oldProduct.imageName == undefined ? null : productChangeModel.oldProduct.imageName
                   },
                   newProduct: {
@@ -35,7 +35,7 @@ function ChangeLogService( $resource, devapiurl, OrderCloudSDK ) {
                     unitofMeasure: productChangeModel.newProduct.unitofMeasure == undefined ? null : productChangeModel.newProduct.unitofMeasure,
                     active: productChangeModel.newProduct.active == undefined ? null : productChangeModel.newProduct.active,
                     approvalRequired: productChangeModel.newProduct.approvalRequired == undefined ? null : productChangeModel.newProduct.approvalRequired,
-                    whileSuppliesLast: productChangeModel.newProduct.whileSuppliesLast == undefined ? null : productChangeModel.newProduct.whileSuppliesLast,
+                    whileSuppliesLast: productChangeModel.newProduct.whileSuppliesLast == undefined ? false : productChangeModel.newProduct.whileSuppliesLast,
                     imageName: productChangeModel.newProduct.imageName == undefined ? null : productChangeModel.newProduct.imageName
                   },
                   modifiedBy : currentUser.Username ,
