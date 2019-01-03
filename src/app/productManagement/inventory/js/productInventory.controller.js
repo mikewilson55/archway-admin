@@ -11,6 +11,8 @@ function ProductInventoryController($exceptionHandler, toastr, ocProductInventor
         vm.loading = ocProductInventory.Update(product)
             .then(function(updatedProduct) {
                 vm.product = angular.copy(updatedProduct);
+                //(2) reassign value to selectproduct as it is showing old when user come back to Invetory tab
+                SelectedProduct.Inventory.QuantityAvailable = vm.product.Inventory.QuantityAvailable;
                 vm.ProductInventoryForm.$setPristine();
                 toastr.success(updatedProduct.Name + ' inventory was updated');
             })

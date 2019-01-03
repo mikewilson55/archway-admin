@@ -1,0 +1,84 @@
+<form name="productChangeLog.form"
+      autocomplete="off"
+      novalidate
+      oc-pretty-submit>
+    <div class="modal-header">
+        <button type="button"
+                class="close"
+                ng-click="productChangeLog.cancel()"
+                aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3>{{productChangeLog.item.Name || productChangeLog.item.ID}} <small ng-if="productChangeLog.item.Name">{{productChangeLog.item.ID}}</small></h3>
+    </div>
+    <div class="modal-body">
+        <div cg-busy="productChangeLog.Loading">
+            <div class="well text-center" ng-if="productChangeLog.list.Items && !productChangeLog.list.Items.length">                
+                This item has no change log details.
+            </div>
+            <div ng-if="productChangeLog.list.Items.length">
+                <div class="row">
+                    <div class="col-xs-6 col-xs-offset-6">
+                        <p class="text-right">{{ productChangeLog.list.Meta.ItemRange[0]  + ' - ' +
+                            productChangeLog.list.Meta.ItemRange[1] + ' of ' + productChangeLog.list.Meta.TotalCount + ' results'}}</p>
+                    </div>
+                </div>
+    
+                <div class="panel panel-default table-responsive">
+                    <table class="table table-striped table-bordered l-product-table">                        
+                        <thead>
+                        <tr>
+                            <th ng-click="productChangeLog.updateSort('ApplicationName')">
+                                <span>Application</span>
+                                <i class="fa fa-caret-down" ng-show="productChangeLog.parameters.sortBy == 'ApplicationName'"></i>
+                                <i class="fa fa-caret-up" ng-show="productChangeLog.parameters.sortBy == '!ApplicationName'"></i>
+                            </th>
+                            <th ng-click="productChangeLog.updateSort('PropertyName')">
+                                <span>Property</span>
+                                <i class="fa fa-caret-down" ng-show="productChangeLog.parameters.sortBy == 'PropertyName'"></i>
+                                <i class="fa fa-caret-up" ng-show="productChangeLog.parameters.sortBy == '!PropertyName'"></i>
+                            </th>
+                            <th><span>New Value</span></th>
+                            <th><span>Old Value</span></th>
+                            <th ng-click="productChangeLog.updateSort('ModifiedBy')">
+                                <span>User</span>
+                                <i class="fa fa-caret-down" ng-show="productChangeLog.parameters.sortBy == 'ModifiedBy'"></i>
+                                <i class="fa fa-caret-up" ng-show="productChangeLog.parameters.sortBy == '!ModifiedBy'"></i>
+                            </th>
+                            <th ng-click="productChangeLog.updateSort('ModifiedDate')">
+                                <span>Change Date</span>
+                                <i class="fa fa-caret-down" ng-show="productChangeLog.parameters.sortBy == 'ModifiedDate'"></i>
+                                <i class="fa fa-caret-up" ng-show="productChangeLog.parameters.sortBy == '!ModifiedDate'"></i>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="product in productChangeLog.list.Items">
+                            <td>{{product.ApplicationName}}</td>
+                            <td>{{product.PropertyName}}</td>
+                            <td>{{product.NewValue}}</td>
+                            <td>{{product.OldValue}}</td>
+                            <td>{{product.ModifiedBy}}</td>
+                            <td>{{product.ModifiedDate | date : 'MM/dd/yyyy hh:mm:ss a'}}</td>                           
+                        </tr>
+                        </tbody>
+                    </table>                    
+                </div> 
+                <div class="panel_popup_paging">
+                    <ul uib-pagination
+                        class="pagination-sm pull-right hidden-xs"
+                        ng-if="productChangeLog.list.Meta.TotalPages > 1"
+                        total-items="productChangeLog.list.Meta.TotalCount"
+                        items-per-page="productChangeLog.list.Meta.PageSize"
+                        max-size="5"
+                        boundary-links="productChangeLog.list.Meta.TotalPages > 5"
+                        ng-model="productChangeLog.list.Meta.Page"
+                        ng-change="productChangeLog.pageChanged()">
+                    </ul> 
+                    <button type="button"
+                    class="btn btn-default btn-block btn-lg visible-xs"
+                    ng-show="productChangeLog.list.Meta.Page < productChangeLog.list.Meta.TotalPages"
+                    ng-click="productChangeLog.loadMore()">Load More</button>
+                </div>               
+            </div>
+        </div>
+    </div>
+</form>

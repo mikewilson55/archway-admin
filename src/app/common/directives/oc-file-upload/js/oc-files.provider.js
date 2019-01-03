@@ -9,7 +9,7 @@ function OrderCloudFilesProvider() {
         folder:  null,
         extensions:  null,
         invalidExtensions:  null,
-        uploadText:  'Browse files',
+        uploadText:  'Image Upload',
         replaceText: 'Replace file',
         onUpdate:  null,
         multiple: false,

@@ -77,6 +77,11 @@
                                     <input id="ProductApproval" name="ProductApproval" type="checkbox" ng-model="product.model.xp.ApprovalRequired"> Approval Required
                                 </label>
                             </div>
+                            <div class="checkbox">
+                                <label for="ProductWhileSuppliesLast">
+                                    <input id="ProductWhileSuppliesLast" name="ProductWhileSuppliesLast" type="checkbox" ng-model="product.model.xp.WhileSuppliesLast"> While Supplies Last
+                                </label>
+                            </div>
                         </div>
                     </fieldset>
                     <fieldset class="form-group" oc-if-roles="ProductAdmin">
@@ -88,6 +93,8 @@
             </div>
             <div class="col-sm-4">
                 <oc-file-upload product="product.model" file-upload-model="product.model.xp" file-upload-options="product.fileUploadOptions"></oc-file-upload>
+                <br /><br /><br />                
+                <a oc-product-change-log product="product.model" style="cursor:pointer">View Product Change Log</a>
             </div>
         </div>
     </div>
