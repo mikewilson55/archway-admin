@@ -17,18 +17,20 @@
     <div ui-view cg-busy="application.stateLoading('product')">
         <div class="row">
             <div class="col-sm-8">
-                <form name="product.form" autocomplete="off" ng-submit="product.updateProduct()" cg-busy="product.loading" novalidate class="form-horizontal" oc-readonly-roles="ProductAdmin" oc-pretty-submit>
+                <form name="product.form" autocomplete="off" ng-submit="product.updateProduct()" cg-busy="product.loading"
+                    novalidate class="form-horizontal" oc-readonly-roles="ProductAdmin" oc-pretty-submit>
                     <fieldset class="form-group">
                         <label for="ProductID" class="col-sm-3 control-label">Product ID</label>
                         <div class="col-sm-9">
-                            <input id="ProductID" pattern="([A-Za-z0-9\-\_]+)" pattern-err-type="ID_Name" type="text" class="form-control" ng-model="product.model.ID"
-                                   required>
+                            <input id="ProductID" pattern="([A-Za-z0-9\-\_]+)" pattern-err-type="ID_Name" type="text"
+                                class="form-control" ng-model="product.model.ID" required>
                         </div>
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="ProductName" class="col-sm-3 control-label">Name</label>
                         <div class="col-sm-9">
-                            <input id="ProductName" type="text" class="form-control" ng-model="product.model.Name" required>
+                            <input id="ProductName" type="text" class="form-control" ng-model="product.model.Name"
+                                required>
                         </div>
                     </fieldset>
                     <fieldset class="form-group">
@@ -51,12 +53,14 @@
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="keywords" class="col-sm-3 control-label">Keywords</label>
-                        <tags-input class="col-sm-9" ng-if="product.state === 'product' || product.state === 'product.pricing'" ng-model="product.keywords" ng-init="product.setKeywords()"></tags-input>
+                        <tags-input class="col-sm-9" ng-if="product.state === 'product' || product.state === 'product.pricing'"
+                            ng-model="product.keywords" ng-init="product.setKeywords()"></tags-input>
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="QuantityMultiplier" class="col-sm-3 control-label">Qty Multiplier</label>
                         <div class="col-sm-9">
-                            <input id="QuantityMultiplier" type="number" class="form-control" min="1" ng-model="product.model.QuantityMultiplier" required>
+                            <input id="QuantityMultiplier" type="number" class="form-control" min="1" ng-model="product.model.QuantityMultiplier"
+                                required>
                         </div>
                     </fieldset>
                     <fieldset class="form-group">
@@ -69,31 +73,35 @@
                         <div class="col-sm-offset-3 col-sm-9">
                             <div class="checkbox">
                                 <label for="ProductActive">
-                                    <input id="ProductActive" name="ProductActive" type="checkbox" ng-model="product.model.Active"> Active
+                                    <input id="ProductActive" name="ProductActive" type="checkbox" ng-model="product.model.Active">
+                                    Active
                                 </label>
                             </div>
                             <div class="checkbox">
                                 <label for="ProductApproval">
-                                    <input id="ProductApproval" name="ProductApproval" type="checkbox" ng-model="product.model.xp.ApprovalRequired"> Approval Required
+                                    <input id="ProductApproval" name="ProductApproval" type="checkbox" ng-model="product.model.xp.ApprovalRequired">
+                                    Approval Required
                                 </label>
                             </div>
                             <div class="checkbox">
                                 <label for="ProductWhileSuppliesLast">
-                                    <input id="ProductWhileSuppliesLast" name="ProductWhileSuppliesLast" type="checkbox" ng-model="product.model.xp.WhileSuppliesLast"> While Supplies Last
+                                    <input id="ProductWhileSuppliesLast" name="ProductWhileSuppliesLast" type="checkbox"
+                                        ng-model="product.model.xp.WhileSuppliesLast"> While Supplies Last
                                 </label>
                             </div>
                         </div>
                     </fieldset>
                     <fieldset class="form-group" oc-if-roles="ProductAdmin">
                         <div class="col-sm-offset-3 col-sm-9">
-                            <button type="submit" cg-busy="product.productUpdateLoading" ng-disabled="product.form.$invalid" class="btn btn-primary btn-block">Update Product Info</button>
+                            <button type="submit" cg-busy="product.productUpdateLoading" ng-disabled="product.form.$invalid"
+                                class="btn btn-primary btn-block">Update Product Info</button>
                         </div>
                     </fieldset>
                 </form>
             </div>
             <div class="col-sm-4">
                 <oc-file-upload product="product.model" file-upload-model="product.model.xp" file-upload-options="product.fileUploadOptions"></oc-file-upload>
-                <br /><br /><br />                
+                <br /><br /><br />
                 <a oc-product-change-log product="product.model" style="cursor:pointer">View Product Change Log</a>
             </div>
         </div>
