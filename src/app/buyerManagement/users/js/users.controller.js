@@ -121,7 +121,7 @@ function UsersController($state, $stateParams, toastr, ppgbuyerurl, OrderCloudSD
                 if(isLimitedAdmin){
                     impersonation.roles = ['AddressReader', 'BuyerReader', 'BuyerUserReader', 'BuyerImpersonation', 'MeAddressAdmin', 'MeAdmin', 'MeXpAdmin', 'OrderReader', 'OrderAdmin','Shopper', 'ShipmentReader'];
                 }else{
-                    impersonation.roles =['AddressReader', 'BuyerReader', 'BuyerUserReader', 'BuyerUserAdmin', 'BuyerImpersonation', 'MeAddressAdmin', 'MeAdmin', 'MeXpAdmin', 'OrderReader', 'OrderAdmin','Shopper', 'UserGroupAdmin', 'UserGroupReader', 'ShipmentAdmin', 'ShipmentReader']
+                    impersonation.roles =['AddressReader', 'BuyerReader', 'BuyerUserReader', 'BuyerUserAdmin', 'BuyerImpersonation', 'MeAddressAdmin', 'MeAdmin', 'MeXpAdmin', 'OrderReader', 'OrderAdmin','Shopper', 'UserGroupAdmin', 'UserGroupReader', 'ShipmentAdmin', 'ShipmentReader','ProductAdmin']
                 } 
                 return impersonation;
             })
