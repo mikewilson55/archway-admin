@@ -31,7 +31,7 @@ function CatalogChipGridController(OrderCloudSDK, $q, $timeout, toastr, Paramete
                     reordered: function($elements) {
                         vm.updatedPositions = [];
                         angular.forEach($elements, function(elem) {
-                            vm.updatedPositions.push(elem.innerText);  
+                            vm.updatedPositions.push(elem.firstElementChild.innerText);  
                         });
                     }
                 }
