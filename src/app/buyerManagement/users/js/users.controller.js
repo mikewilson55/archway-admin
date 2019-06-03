@@ -89,12 +89,13 @@ function UsersController($state, $stateParams, toastr, ppgbuyerurl, OrderCloudSD
 
     vm.impersonateUser = function(scope) {
         return getImpersonation(scope.user)
-            .then((impersonation)=>{
+            .then((impersonation)=>{                
                 return OrderCloudSDK.Users.GetAccessToken($stateParams.buyerid, scope.user.ID, impersonation)
                 .then(function(data) {
                     let user = {
                         ID: vm.currentUser.ID,
-                        Name: vm.currentUser.FirstName + '' + vm.currentUser.LastName
+                        Name: vm.currentUser.FirstName + '' + vm.currentUser.LastName,
+                        Roles: impersonation.roles
                     };
                     let userData = Object.keys(user).map((key) => {
                         return encodeURIComponent(key) + '=' + encodeURIComponent(user[key]);
