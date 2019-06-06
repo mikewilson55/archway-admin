@@ -4,6 +4,13 @@ angular.module('orderCloud')
 
 function humanize() {
     return function(string) {
+        switch (string) {            
+            case 'Cancelled':
+                string = 'Canceled';
+            default:
+                break;
+        }
+
         if (!string) return;
 
         return string

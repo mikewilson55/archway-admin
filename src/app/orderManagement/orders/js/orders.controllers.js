@@ -13,11 +13,12 @@ function OrdersController($state, $ocMedia, OrderCloudSDK, ocParameters, ocOrder
     vm.sortSelection = Parameters.sortBy ? (Parameters.sortBy.indexOf('!') == 0 ? Parameters.sortBy.split('!')[1] : Parameters.sortBy) : null;
 
     vm.orderStatuses = [
+        {Value: '!Unsubmitted', Name: 'All'},
         {Value: 'Open', Name: 'Open'},
         {Value: 'AwaitingApproval', Name: 'Awaiting Approval'},
         {Value: 'Canceled', Name: 'Canceled'},
-        {Value: 'Completed', Name: 'Completed'},
-        {Value: 'Declined', Name: 'Declined'}
+        { Value: 'Shipped', Name: 'Shipped' },
+        {Value: 'Declined', Name: 'Declined'}        
     ];
 
     //Check if filters are applied
@@ -29,6 +30,27 @@ function OrdersController($state, $ocMedia, OrderCloudSDK, ocParameters, ocOrder
 
     //Reload the state with new parameters
     vm.filter = function(resetPage) {
+        if(vm.parameters.filters.status === 'Shipped')
+        {     
+            vm.parameters.filters[ 'status' ]=  '!Unsubmitted';           
+            vm.parameters.filters[ 'xp.orderStatus' ]=  'Shipped';            
+        }
+        else if(vm.parameters.filters.status ==='Open')
+        {
+            vm.parameters.filters[ 'status' ]=  'Open';
+            vm.parameters.filters[ 'xp.orderStatus' ]=  '!*';
+        }
+        else if(vm.parameters.filters.status ==='Canceled')
+        {         
+            vm.parameters.filters[ 'status' ]=  '!Unsubmitted';          
+            vm.parameters.filters[ 'xp.orderStatus' ]=  'Cancel*';
+        }
+        else
+        {
+            vm.parameters.filters[ 'status' ]=  vm.parameters.filters[ 'status' ];
+            delete vm.parameters.filters[ 'xp.orderStatus' ];
+        }
+        
         $state.go('.', ocParameters.Create(vm.parameters, resetPage));
     };
 

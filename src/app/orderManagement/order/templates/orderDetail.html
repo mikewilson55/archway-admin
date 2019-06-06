@@ -31,7 +31,7 @@
                     <div class="col-sm-8">
                         <b>Date {{orderDetail.order.DateSubmitted ? 'Submitted' : 'Created'}}: </b> {{(orderDetail.order.DateSubmitted
                         || orderDetail.order.DateCreated) | date:'medium'}} <br>
-                        <b>Status: </b> {{orderDetail.order.Status | humanize}} <br>
+                        <b>Status: </b> {{(orderDetail.order.xp.orderStatus ? orderDetail.order.xp.orderStatus: orderDetail.order.Status) | humanize}} <br>
                         <b>Buyer Company: </b> {{orderDetail.order.FromCompany.Name}} <br>
                         <b>Created By: </b> {{orderDetail.order.FromUser.FirstName + ' ' + orderDetail.order.FromUser.LastName}}
                         <br>

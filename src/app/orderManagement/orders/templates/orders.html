@@ -26,7 +26,7 @@
             <div class="col-sm-3 form-group">
                 <label for="Status">Status</label>
                 <select id="Status" class="form-control" ng-model="orders.parameters.filters.status" ng-options="status.Value as status.Name for status in orders.orderStatuses" ng-change="orders.filter(true)">
-                    <option value="">All</option>
+                    <!-- <option value="">All</option> -->
                 </select>
             </div>
             <div class="col-sm-3 form-group">
@@ -80,11 +80,16 @@
                                 <i class="fa fa-caret-down" ng-show="orders.parameters.sortBy == 'ID'"></i>
                                 <i class="fa fa-caret-up" ng-show="orders.parameters.sortBy == '!ID'"></i>
                             </th>
-                            <th ng-click="orders.updateSort('Status')">
+                            <!-- <th ng-click="orders.updateSort('Status')">
                                 Status
                                 <i class="fa fa-caret-down" ng-show="orders.parameters.sortBy == 'Status'"></i>
                                 <i class="fa fa-caret-up" ng-show="orders.parameters.sortBy == '!Status'"></i>
-                            </th>
+                            </th> -->
+                            <th>
+                                Status
+                                <i class="fa fa-caret-down" ng-show="orders.parameters.sortBy == 'Status'"></i>
+                                <i class="fa fa-caret-up" ng-show="orders.parameters.sortBy == '!Status'"></i>
+                            </th> 
                             <th ng-click="orders.updateSort('DateSubmitted')">
                                 Received
                                 <i class="fa fa-caret-down" ng-show="orders.parameters.sortBy == 'DateSubmitted'"></i>
@@ -110,7 +115,7 @@
                     <tbody>
                         <tr ng-repeat="order in orders.list.Items">
                             <td><a href="" ui-sref="orderDetail({buyerid: order.FromCompanyID, orderid: order.ID})">{{order.ID}}</a></td>
-                            <td>{{order.Status | humanize}}</td>
+                            <td>{{(order.xp.orderStatus ? order.xp.orderStatus: order.Status) | humanize}}</td>
                             <td>{{(order.DateSubmitted || order.DateCreated) | date:'short'}}</td>
                             <td>{{order.FromCompany.Name}}</td>
                             <td>{{order.FromUser.FirstName + ' ' + order.FromUser.LastName}}</td>

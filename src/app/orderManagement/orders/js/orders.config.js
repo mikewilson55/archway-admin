@@ -18,7 +18,9 @@ function OrdersConfig($stateProvider) {
                     return ocParameters.Get($stateParams);
                 },
                 OrderList: function(ocOrdersService, Parameters) {
-                    return ocOrdersService.List(Parameters);
+                   let result=ocOrdersService.List( Parameters);
+                    Parameters.filters.status = (Parameters.filters[ 'xp.orderStatus' ] ? (Parameters.filters[ 'xp.orderStatus' ].toLowerCase() === 'shipped' ? 'Shipped' : (Parameters.filters[ 'xp.orderStatus' ].toLowerCase() === 'cancel*'  ? 'Canceled':(Parameters.filters.status.toLowerCase()==='!unsubmitted'? '!Unsubmitted':Parameters.filters.status))) : (Parameters.filters.status.toLowerCase()==='!unsubmitted'? '!Unsubmitted':Parameters.filters.status));
+                    return result;
                 },
                 BuyerCompanies: function(OrderCloudSDK) {
                     var options = {
